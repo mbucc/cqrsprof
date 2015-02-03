@@ -71,8 +71,7 @@ var commands = flag.Int("e", 1000000, "Number of commands to process")
 func main() {
 	var id AggregateID
 
-flag.Parse()
-
+	flag.Parse()
 
 	// Use the same sequence of random numbers
 	// in case we need to reproduce something.
