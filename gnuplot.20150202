@@ -1,8 +1,0 @@
-set size square
- 
-set ylabel "User Time (seconds)"
-set xlabel "Events"
- 
-set terminal svg
-set output 'data.20150202.svg'
-plot "data.20150202" using 1:2 with linespoints

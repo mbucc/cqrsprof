@@ -1,0 +1,9 @@
+set size square
+ 
+set ylabel "User Time (seconds)"
+set xlabel "Events"
+ 
+set terminal svg
+set output 'cqrsprof.svg'
+plot "data.20150202" using 1:2 with linespoints, \
+     "data.20150207" using 1:2 with linespoints

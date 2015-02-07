@@ -1,0 +1,9 @@
+
+data.20150202
+
+	First attempt, with ErrConcurrency.
+
+data.20150207
+
+	No more ErrConcurrency, use semaphore to guarantee
+	events processed one-by-one.
