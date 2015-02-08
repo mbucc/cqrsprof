@@ -25,6 +25,8 @@ import (
 	"math/rand"
 )
 
+var cpuprofile = flag.String("cpuprofile", "", "write cpu profile to file")
+
 type ShoutCommand struct {
 	id               AggregateID
 	Comment          string
@@ -72,10 +74,19 @@ func main() {
 	var id AggregateID
 
 	flag.Parse()
+	if *cpuprofile != "" {
+		f, err := os.Create(*cpuprofile)
+		if err != nil {
+			log.Fatal(err)
+		}
+		pprof.StartCPUProfile(f)
+		defer pprof.StopCPUProfile()
+	}
 
 	// Use the same sequence of random numbers
 	// in case we need to reproduce something.
 	rand.Seed(42)
+
 	store := &FileSystemEventStore{RootDir: "/tmp"}
 	RegisterEventListeners(new(HeardEvent), new(NullEventListener))
 	RegisterEventStore(store)
