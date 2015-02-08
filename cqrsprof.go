@@ -77,6 +77,7 @@ func main() {
 	var id AggregateID
 
 	flag.Parse()
+
 	if *cpuprofile != "" {
 		f, err := os.Create(*cpuprofile)
 		if err != nil {

@@ -1,6 +1,6 @@
 set size square
  
-set ylabel "User Time (seconds)"
+set ylabel "Real Time (seconds)"
 set xlabel "Events"
  
 set terminal svg
