@@ -3,3 +3,8 @@
 
 cqrsprof.svg: gnuplot.script data.*
 	gnuplot < gnuplot.script
+
+cqrs.prof:
+	go install
+	cqrsprof -e 5000 -cpuprofile=./cqrs.prof
+	go tool pprof $(which cqrsprof) cqrs.prof

@@ -21,8 +21,11 @@ package main
 import (
 	"flag"
 	"fmt"
-	. "github.com/mbucc/cqrs"
+	"log"
 	"math/rand"
+	"os"
+	"runtime/pprof"
+	. "github.com/mbucc/cqrs"
 )
 
 var cpuprofile = flag.String("cpuprofile", "", "write cpu profile to file")
@@ -68,7 +71,7 @@ func (h *NullEventListener) Apply(e Event) error   { return nil }
 func (h *NullEventListener) Reapply(e Event) error { return nil }
 
 var aggregates = flag.Int("a", 100, "Number of aggregate IDs")
-var commands = flag.Int("e", 10000, "Number of commands to process")
+var commands = flag.Int("e", 1000, "Number of commands to process")
 
 func main() {
 	var id AggregateID
