@@ -1,7 +1,23 @@
 #! /bin/sh -e
-# Created 
+# Create plot for today's code.
 
-by Mark Bucciarelli
+STAMP=$(date +"%Y%m%d")
 
-# Create the SVG from data.
+go clean
+go install
 
+N="
+1000
+10000
+25000
+50000
+75000
+100000
+"
+
+rm -f data.$STAMP
+for n in $N; do
+	echo "Running with $n commands ..."
+	seconds=$((time -p cqrsprof -e $n) 2>&1 | grep real |awk '{print $2}')
+	printf "%s\t%8.2f\n" $n $seconds >> data.$STAMP
+done
