@@ -16,6 +16,8 @@ N="
 rm -f data.$STAMP
 for n in $N; do
 	echo "Running with $n commands ..."
+set -x
 	seconds=$((time -p cqrsprof -e $n) 2>&1 | grep real |awk '{print $2}')
+set +x
 	printf "%s\t%8.2f\n" $n $seconds >> data.$STAMP
 done

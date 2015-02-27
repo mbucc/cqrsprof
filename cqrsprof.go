@@ -21,11 +21,11 @@ package main
 import (
 	"flag"
 	"fmt"
+	. "github.com/mbucc/cqrs"
 	"log"
 	"math/rand"
 	"os"
 	"runtime/pprof"
-	. "github.com/mbucc/cqrs"
 )
 
 var cpuprofile = flag.String("cpuprofile", "", "write cpu profile to file")
@@ -91,10 +91,13 @@ func main() {
 	// in case we need to reproduce something.
 	rand.Seed(42)
 
-	store := &FileSystemEventStore{RootDir: "/tmp"}
+	// store := &FileSystemEventStore{RootDir: "/tmp"}
+	store := NewSqliteEventStore("/tmp/cqrs.db")
+
 	RegisterEventListeners(new(HeardEvent), new(NullEventListener))
 	RegisterEventStore(store)
 	RegisterCommandAggregator(new(ShoutCommand), NullAggregate{})
+
 	for i := 0; i < *commands; i++ {
 		id = AggregateID(rand.Intn(*aggregates))
 		SendCommand(&ShoutCommand{id, fmt.Sprintf("hello from command #%d", i), false})
