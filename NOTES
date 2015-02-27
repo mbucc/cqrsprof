@@ -7,3 +7,7 @@ data.20150207 [channels 0772fa0]
 
 	No more ErrConcurrency, use semaphore to guarantee
 	events processed one-by-one.
+
+data.20150227 [sqlite b8f55aaebfb88345ce872673eaff00d93bd25953]
+
+	Sqlite data store.

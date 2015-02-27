@@ -92,6 +92,7 @@ func main() {
 	rand.Seed(42)
 
 	// store := &FileSystemEventStore{RootDir: "/tmp"}
+	os.Remove("/tmp/cqrs.db")
 	store := NewSqliteEventStore("/tmp/cqrs.db")
 
 	RegisterEventListeners(new(HeardEvent), new(NullEventListener))
