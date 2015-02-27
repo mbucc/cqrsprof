@@ -5,6 +5,6 @@ set xlabel "Events"
  
 set terminal svg
 set output 'cqrsprof.svg'
-plot "data.20150202" using 1:2 with linespoints title 'Gob store, O_EXCL', \
+plot "data.20150202" using 1:2 with linespoints title 'Gob store, O\_EXCL', \
      "data.20150207" using 1:2 with linespoints title 'Gob store, channel', \
      "data.20150227" using 1:2 with linespoints title 'Sql event store'
