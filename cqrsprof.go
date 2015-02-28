@@ -19,9 +19,10 @@
 package main
 
 import (
+	. "github.com/mbucc/cqrs"
+
 	"flag"
 	"fmt"
-	. "github.com/mbucc/cqrs"
 	"log"
 	"math/rand"
 	"os"
@@ -29,6 +30,9 @@ import (
 )
 
 var cpuprofile = flag.String("cpuprofile", "", "write cpu profile to file")
+var aggregates = flag.Int("a", 100, "Number of aggregate IDs")
+var commands = flag.Int("e", 1000, "Number of commands to process")
+var tmpdir = flag.String("d", "./tmp/", "Temporary directory to persist events.")
 
 type ShoutCommand struct {
 	id               AggregateID
@@ -70,9 +74,6 @@ type NullEventListener struct{}
 func (h *NullEventListener) Apply(e Event) error   { return nil }
 func (h *NullEventListener) Reapply(e Event) error { return nil }
 
-var aggregates = flag.Int("a", 100, "Number of aggregate IDs")
-var commands = flag.Int("e", 1000, "Number of commands to process")
-
 func main() {
 	var id AggregateID
 
@@ -91,9 +92,8 @@ func main() {
 	// in case we need to reproduce something.
 	rand.Seed(42)
 
-	// store := &FileSystemEventStore{RootDir: "/tmp"}
-	os.Remove("/tmp/cqrs.db")
-	store := NewSqliteEventStore("/tmp/cqrs.db")
+	//store := NewSqliteEventStore(*tmpdir + "/cqrs.db")
+	store := &FileSystemEventStore{RootDir: *tmpdir}
 
 	RegisterEventListeners(new(HeardEvent), new(NullEventListener))
 	RegisterEventStore(store)

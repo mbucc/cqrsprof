@@ -1,0 +1,39 @@
+#! /bin/sh -e
+# Given a git SHA1, generate performance data.
+
+DATA_FN=$1
+SHA1=$(echo $DATA_FN | cut -d . -f 2)
+CQRS_SRC=../cqrs
+
+N="
+1000
+10000
+25000
+50000
+75000
+"
+
+
+TMPDIR="./tmp"
+mkdir -p $TMPDIR
+
+printf "%s: rebuilding %s ...\n" $SHA1 $CQRS_SRC
+set -x
+cd $CQRS_SRC
+git checkout $SHA1
+go clean
+go install
+cd -
+set +x
+
+printf "\n%s: rebuilding cqrsprof ...\n" $SHA1
+go clean
+go install
+
+rm -f $DATA_FN
+for n in $N; do
+	rm -rf $TMPDIR/*
+	printf "%s: running with %d commands ...\n" $SHA1 $n 
+	seconds=$((time -p cqrsprof -d $TMPDIR -e $n >/dev/null) 2>&1 | grep real |awk '{print $2}')
+	printf "%s\t%8.2f\n" $n $seconds >> $DATA_FN
+done

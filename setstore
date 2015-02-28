@@ -1,0 +1,11 @@
+#! /bin/sh -e
+# Edit go code that defines which EventStorer to use.
+# Older SHA1's of cqrs don't compile with newer stores in cqrsprof.
+
+store=$1
+
+ed - cqrsprof.go << EOF
+g;\([^\/]\)store :=;s;;\1//store :=;g
+g;//\(store := .*$store\);s;;\1;g
+w
+EOF
