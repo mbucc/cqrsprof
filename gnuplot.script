@@ -4,6 +4,7 @@ set ylabel "Commands / second"
 set xlabel "Total commands processed\n(thousands)"
  
 # This does not provide a great fit to the right.
+# Actual performance doesn't degrade as fast as the fit exponential.
 #gobfit(x) = a1*exp(-b1*(x-1000)/1000)
 #sqlitefit(x) = a2*exp(-b2*(x-1000)/1000)
 #a1=1500
